@@ -22,6 +22,7 @@
 #include "Game.h"
 #include <random>
 
+
 Game::Game(MainWindow& wnd)
 	:
 	wnd(wnd),
@@ -29,13 +30,15 @@ Game::Game(MainWindow& wnd)
 	rng(rd()),
 	xDist(0, 770),
 	yDist(0, 570),
-	goal(xDist(rng), yDist(rng)),
+	goal(vec2(xDist(rng), yDist(rng) ) ),
 	meter(20, 20)
 {
+	
 	std::uniform_real_distribution<float> vDist(-2.5f * 60.0f, 2.5f * 60.0f);
+
 	for (int i = 0; i < nPoo; ++i)
 	{
-		poos[i].Init(xDist(rng), yDist(rng), 0.5f * 60.0f,0.5f * 60.0f );
+		poos[i].Init(vec2 ( xDist(rng), yDist(rng)),vec2( vDist( rng ),vDist(rng) ) );
 	}
 }
 
@@ -68,7 +71,7 @@ void Game::UpdateModel()
 		}
 		if (goal.TestCollision(dude))
 		{
-			goal.Respawn(xDist(rng), yDist(rng));
+			goal.Respawn(vec2(xDist(rng), yDist(rng) ) );
 			meter.IncreaseLevel();
 		}
 	}
@@ -28448,5 +28451,5 @@ void Game::ComposeFrame()
 		meter.Draw(gfx);
 	}
 
-	gfx.DrawCircle(200, 200, 100, Colors::Blue);
+	//gfx.DrawCircle(200, 200, 100, Colors::Blue);
 }

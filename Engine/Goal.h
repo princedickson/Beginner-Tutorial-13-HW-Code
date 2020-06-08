@@ -1,14 +1,13 @@
 #pragma once
 #include "Graphics.h"
 #include "Dude.h"
-
+#include "vec2.h"
 class Goal
 {
 public:
-	Goal(float in_x, float in_y)
+	Goal(const vec2& pos_in)
 		:
-		x(in_x),
-		y(in_y)
+		pos( pos_in )
 	{}
 	void Draw(Graphics& gfx) const
 	{
@@ -16,21 +15,20 @@ public:
 	}
 	bool TestCollision(const Dude& dude) const
 	{
-		const float duderight = dude.GetX() + dude.GetWidth();
-		const float dudebottom = dude.GetY() + dude.GetHeight();
+		const float duderight = dude.GetPos().x + dude.GetWidth();
+		const float dudebottom = dude.GetPos().y + dude.GetHeight();
 		const float pooright = x + dimension;
 		const float poobottom = y + dimension;
 
 		return
 			duderight >= x &&
-			dude.GetX() <= pooright &&
+			dude.GetPos().x <= pooright &&
 			dudebottom >= y &&
-			dude.GetY() <= poobottom;
+			dude.GetPos().y <= poobottom;
 	}
-	void Respawn(float in_x, float in_y)
+	void Respawn(const vec2& pos_in)
 	{
-		x = in_x;
-		y = in_y;
+		pos = pos_in;
 	}
 	void UpdateColor()
 	{
@@ -63,4 +61,5 @@ private:
 	bool colorIncreasing = true;
 	float x;
 	float y;
+	vec2 pos;
 };
